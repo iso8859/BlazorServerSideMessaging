@@ -1,21 +1,25 @@
 ﻿@page "/"
+@implements IDisposable
 @inject Messaging messaging
 
-    <a href="/" target="_blank">Nouvelle fenêtre</a><br/>
+<a href="/" target="_blank">Nouvelle fenêtre</a>
+<br />
 
-    Entrez votre message<br/>
-    <input type="text" @bind-value="@submitMessage"/><br/>
-    <button @onclick="@((e) => messaging.NewMessage(submitMessage))">Envoyer</button>
+    Entrez votre message
+<br />
+<input type="text" @bind-value="@submitMessage" />
+<br />
+<button @onclick="@((e) => messaging.NewMessage(submitMessage))">Envoyer</button>
 
 <li>
-    @foreach(string s in messages)
+    @foreach (string s in messages)
     {
         <ul>@s</ul>
     }
 </li>
 
 @code
-{ 
+{
     List<string> messages = new List<string>();
     string submitMessage;
 
@@ -24,7 +28,7 @@
         messaging.NewMessageEvent += NewMessage;
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         messaging.NewMessageEvent -= NewMessage;
     }
